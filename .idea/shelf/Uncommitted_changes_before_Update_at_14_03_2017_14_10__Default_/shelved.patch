@@ -1,0 +1,126 @@
+Index: TeamScorch/controllers/PostContoller.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/controllers/PostContoller.php	(revision df2c63eae40b6994e9a625ea12f7b80154bad84b)
++++ TeamScorch/controllers/PostContoller.php	(revision )
+@@ -1,6 +1,10 @@
+ <?php
+-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Post.php';
+ 
++//var_dump($_SERVER['DOCUMENT_ROOT']);
++
++
++require_once $_SERVER['DOCUMENT_ROOT'] . '/TeamScorch/models/Post.php';
++
+ Class PostController
+ {
+ 	protected $posts = [];
+@@ -78,4 +82,5 @@
+ 	}
+ 
+ 
+-}
+\ No newline at end of file
++}
++
+Index: TeamScorch/db/connection.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/db/connection.php	(revision df2c63eae40b6994e9a625ea12f7b80154bad84b)
++++ TeamScorch/db/connection.php	(revision )
+@@ -3,9 +3,14 @@
+ require 'functions.php';
+ 
+ try {
+-    $connection = new MysqlPDO('mysql:host=localhost; dbname=TeamScorch; charset=utf8;', 'TeamScorch', 'softuni');
++    $connection = new MysqlPDO('mysql:host=localhost; dbname=teamscorch; charset=utf8;', 'root', '');
+ } catch(PDOException $e) {
+     echo $e->getMessage();
+ }
++
++
++
++
++
+ 
+ //$connection = new MysqlPDO('mysql:host=localhost; dbname=teamscorch; charset=utf8;', 'TeamScorch', 'softuni');
+\ No newline at end of file
+Index: TeamScorch/models/Post.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/models/Post.php	(revision df2c63eae40b6994e9a625ea12f7b80154bad84b)
++++ TeamScorch/models/Post.php	(revision )
+@@ -138,7 +138,7 @@
+ 
+     public function getPostById($id)
+     {
+-        $post = $this->connection->MSelectOnly('Posts', '*', 'WHERE ID = ' . $id);
++        $post = $this->connection->MSelectOnly('posts', '*', 'WHERE ID = ' . $id);
+         $this->setId($post['ID']);
+         $this->setTitle($post['Title']);
+         $this->setContent($post['Content']);
+\ No newline at end of file
+Index: TeamScorch/views/edit.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/views/edit.php	(revision df2c63eae40b6994e9a625ea12f7b80154bad84b)
++++ TeamScorch/views/edit.php	(revision )
+@@ -1,6 +1,11 @@
+ <?php
+-require_once '../db/connection.php';
+-require_once '../controllers/PostContoller.php';
++//require_once '../db/connection.php';
++//require_once '../controllers/PostContoller.php';
++
++require_once ($_SERVER['DOCUMENT_ROOT'] . '/TeamScorch/db/connection.php');
++require_once ($_SERVER['DOCUMENT_ROOT'] . '/TeamScorch/controllers/PostContoller.php');
++
++
+ 
+ $postcontroller = new PostController($connection);
+ 
+\ No newline at end of file
+Index: TeamScorch/requests/login.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/requests/login.php	(revision df2c63eae40b6994e9a625ea12f7b80154bad84b)
++++ TeamScorch/requests/login.php	(revision )
+@@ -1,5 +1,5 @@
+ <?php
+-require '../db/connection.php';
++require_once ("../db/connection.php");
+ 
+ if (!empty($_POST['login'])) {
+ 	$user = $connection->MSelectOnly('Users', '*', 'WHERE Email = "' . $_POST['email'] . '" AND Password = "' . $_POST['password'] . '"');
+\ No newline at end of file
+Index: TeamScorch/welcome.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/welcome.php	(revision df2c63eae40b6994e9a625ea12f7b80154bad84b)
++++ TeamScorch/welcome.php	(revision )
+@@ -1,6 +1,10 @@
+ <?php
+-require_once 'db/connection.php';
+-require_once 'controllers/PostContoller.php';
++
++
++require_once $_SERVER['DOCUMENT_ROOT'] . '/TeamScorch/db/connection.php';
++require_once $_SERVER['DOCUMENT_ROOT'] . '/TeamScorch/controllers/PostContoller.php';
++
++//require_once 'controllers/PostContoller.php';
+ 
+ $postcontroller = new PostController($connection);
+ 
+\ No newline at end of file

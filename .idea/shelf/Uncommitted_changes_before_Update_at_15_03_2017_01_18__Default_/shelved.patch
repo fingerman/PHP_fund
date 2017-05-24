@@ -1,0 +1,196 @@
+Index: TeamScorch/views/users.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/views/users.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/views/users.php	(revision )
+@@ -34,7 +34,7 @@
+ 			<li><a href="welcome.php">Posts</a></li>
+ 			<li class="active"><a href="users.php">Users</a></li>
+ 			<li><a href="welcome.php?logout=true">Изход</a></li>
+-			<li class="pull-right"><a  href="#"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
++			<li class="pull-right"><a  href="user-profile.php"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
+ 		</ul>
+ 	</div>
+ </nav>
+\ No newline at end of file
+Index: TeamScorch/db/connection.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/db/connection.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/db/connection.php	(revision )
+@@ -5,9 +5,14 @@
+ require 'functions.php';
+ 
+ try {
+-    $connection = new MysqlPDO('mysql:host=localhost; dbname=TeamScorch; charset=utf8;', 'TeamScorch', 'softuni');
++    $connection = new MysqlPDO('mysql:host=localhost; dbname=teamscorch; charset=utf8;', 'root', '');
+ } catch(PDOException $e) {
+     echo $e->getMessage();
+ }
++
++
++
++
++
+ 
+ //$connection = new MysqlPDO('mysql:host=localhost; dbname=teamscorch; charset=utf8;', 'TeamScorch', 'softuni');
+\ No newline at end of file
+Index: TeamScorch/controllers/PostContoller.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/controllers/PostContoller.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/controllers/PostContoller.php	(revision )
+@@ -1,6 +1,9 @@
+ <?php
+-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Post.php';
+-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Tag.php';
++//require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Post.php';
++//require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Tag.php';
++require_once(__DIR__. '/../models/Post.php');
++require_once(__DIR__. '/../models/Tag.php');
++
+ 
+ Class PostController
+ {
+\ No newline at end of file
+Index: TeamScorch/db/TeamScorch.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/db/TeamScorch.sql	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/db/TeamScorch.sql	(revision )
+@@ -82,12 +82,12 @@
+ --
+ 
+ INSERT INTO `Tags` (`ID`, `Name`, `PostID`) VALUES
+-(1, 'apple', 1),
+-(2, 'facebook', 1),
+-(3, 'text', 1),
+-(4, 'wallis', 2),
+-(5, 'nunataks', 2),
+-(6, 'australia', 2);
++  (1, 'apple', 1),
++  (2, 'facebook', 1),
++  (3, 'text', 1),
++  (4, 'wallis', 2),
++  (5, 'nunataks', 2),
++  (6, 'australia', 2);
+ 
+ -- --------------------------------------------------------
+ 
+@@ -131,7 +131,7 @@
+ -- Indexes for table `Tags`
+ --
+ ALTER TABLE `Tags`
+-  ADD PRIMARY KEY (`ID`);
++ADD PRIMARY KEY (`ID`);
+ 
+ --
+ -- Indexes for table `Users`
+Index: TeamScorch/models/Post.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/models/Post.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/models/Post.php	(revision )
+@@ -151,7 +151,7 @@
+ 
+     public function getPostById($id)
+     {
+-        $post = $this->connection->MSelectOnly('Posts', '*', 'WHERE ID = ' . $id);
++        $post = $this->connection->MSelectOnly('posts', '*', 'WHERE ID = ' . $id);
+         $this->setId($post['ID']);
+         $this->setTitle($post['Title']);
+         $this->setContent($post['Content']);
+\ No newline at end of file
+Index: TeamScorch/views/edit.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/views/edit.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/views/edit.php	(revision )
+@@ -1,7 +1,12 @@
+ <?php
+-require_once '../db/connection.php';
+-require_once '../controllers/PostContoller.php';
++//require_once '../db/connection.php';
++//require_once '../controllers/PostContoller.php';
+ 
++require_once ($_SERVER['DOCUMENT_ROOT'] . '/TeamScorch/db/connection.php');
++require_once ($_SERVER['DOCUMENT_ROOT'] . '/TeamScorch/controllers/PostContoller.php');
++
++
++
+ $postcontroller = new PostController($connection);
+ 
+ if (empty($_SESSION['user'])) {
+@@ -35,7 +40,7 @@
+ 			<li><a href="#">Page 1</a></li>
+ 			<li><a href="#">Page 2</a></li>
+ 			<li><a href="requests/logout.php">Изход</a></li>
+-			<li class="pull-right"><a  href="#"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
++			<li class="pull-right"><a  href="user-profile.php"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
+ 		</ul>
+ 	</div>
+ </nav>
+\ No newline at end of file
+Index: TeamScorch/views/single-post.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/views/single-post.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/views/single-post.php	(revision )
+@@ -52,7 +52,7 @@
+                 <li><a href="users.php">Users</a></li>
+             <?php endif ?>
+             <li><a href="welcome.php?logout=true">Изход</a></li>
+-            <li class="pull-right"><a  href="#"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
++            <li class="pull-right"><a  href="user-profile.php"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
+         </ul>
+     </div>
+ </nav>
+\ No newline at end of file
+Index: TeamScorch/views/welcome.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/views/welcome.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/views/welcome.php	(revision )
+@@ -53,7 +53,7 @@
+ 				<li><a href="users.php">Users</a></li>
+ 			<?php endif ?>
+ 			<li><a href="welcome.php?logout=true">Изход</a></li>
+-			<li class="pull-right"><a  href="#"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
++			<li class="pull-right"><a href="user-profile.php"><?= $_SESSION['user']['Name'] . " " . (($_SESSION['user']['AccessLevel'] == 1) ? '(админ)' : '') ?></a></li>
+ 		</ul>
+ 	</div>
+ </nav>
+\ No newline at end of file
+Index: TeamScorch/controllers/UserController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamScorch/controllers/UserController.php	(revision f4d19a29a2b27ce71c02078be315721139f166e7)
++++ TeamScorch/controllers/UserController.php	(revision )
+@@ -1,5 +1,7 @@
+ <?php
+-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/User.php';
++//require_once 'models/User.php';
++
++require_once(__DIR__. '/../models/User.php');
+ 
+ Class UserController
+ {
+\ No newline at end of file

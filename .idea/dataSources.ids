@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - blog@localhost" uuid="17acdc0c-40d1-405e-bb4c-929a881efff9">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source name="MySQL - db-light@localhost" uuid="5f4a4e10-c794-4f3f-ab9a-eecf926294e4">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source name="MySQL - catweeter@localhost" uuid="5aaec103-af40-4560-99e2-d748cd19ee43">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+</component>

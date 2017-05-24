@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - blog@localhost" uuid="17acdc0c-40d1-405e-bb4c-929a881efff9">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:blog</introspection-schemas>
+      <resolve-scope>*:blog</resolve-scope>
+      <unqualified-resolve-schemas>*:blog</unqualified-resolve-schemas>
+    </data-source>
+    <data-source name="MySQL - db-light@localhost" uuid="5f4a4e10-c794-4f3f-ab9a-eecf926294e4">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:db-light</introspection-schemas>
+      <resolve-scope>*:db-light</resolve-scope>
+      <unqualified-resolve-schemas>*:db-light</unqualified-resolve-schemas>
+    </data-source>
+    <data-source name="MySQL - catweeter@localhost" uuid="5aaec103-af40-4560-99e2-d748cd19ee43">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:catweeter</introspection-schemas>
+      <resolve-scope>*:catweeter</resolve-scope>
+      <unqualified-resolve-schemas>*:catweeter</unqualified-resolve-schemas>
+    </data-source>
+  </component>
+</project>
